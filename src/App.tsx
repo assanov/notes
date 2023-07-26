@@ -5,6 +5,7 @@ import NewNote from './components/NewNote';
 import { useLocalStorage } from './hooks/UseLocalStorage';
 import { useMemo } from 'react';
 import { v4 } from 'uuid';
+import NoteList from './components/NoteList';
 
 export interface Tag {
     id: string;
@@ -29,6 +30,12 @@ export interface RawNoteData {
 
 export interface RawNote extends RawNoteData {
     id: string;
+}
+
+export interface SimplifiedNote {
+    id: string;
+    title: string;
+    tags: Tag[];
 }
 
 function App() {
@@ -56,7 +63,12 @@ function App() {
     return (
         <Container className='my-4'>
             <Routes>
-                <Route path='/' element={<h1>Home</h1>} />
+                <Route
+                    path='/'
+                    element={
+                        <NoteList notes={noteWithTags} availableTags={tags} />
+                    }
+                />
                 <Route
                     path='/new'
                     element={
