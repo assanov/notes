@@ -5,7 +5,7 @@ import CreatableReactSelect from 'react-select/creatable';
 import { NoteData, Tag } from '../App';
 import { v4 } from 'uuid';
 
-export interface NoteFormProps {
+export interface NoteFormProps extends Partial<NoteData> {
     onSubmit: (data: NoteData) => void;
     onAddTag: (tag: Tag) => void;
     availableTags: Tag[];
@@ -15,10 +15,13 @@ export const NoteForm = ({
     onSubmit,
     onAddTag,
     availableTags,
+    title = '',
+    markdown = '',
+    tags = [],
 }: NoteFormProps) => {
     const titleRef = useRef<HTMLInputElement>(null);
     const markdownRef = useRef<HTMLTextAreaElement>(null);
-    const [selectedTags, setSelectedTags] = useState<Tag[]>([]);
+    const [selectedTags, setSelectedTags] = useState<Tag[]>(tags);
     const navigate = useNavigate();
 
     function handleSubmit(e: FormEvent) {
@@ -40,7 +43,11 @@ export const NoteForm = ({
                     <Col>
                         <Form.Group controlId='title'>
                             <Form.Label>Title</Form.Label>
-                            <Form.Control required ref={titleRef} />
+                            <Form.Control
+                                required
+                                ref={titleRef}
+                                defaultValue={title}
+                            />
                         </Form.Group>
                     </Col>
                     <Col>
@@ -84,6 +91,7 @@ export const NoteForm = ({
                             as='textarea'
                             rows={15}
                             ref={markdownRef}
+                            defaultValue={markdown}
                         />
                     </Form.Group>
                     <Stack
