@@ -83,13 +83,25 @@ function App() {
         setNotes((prev) => prev.filter((n) => n.id !== id));
     }
 
+    function updateTag(id: string, label: string) {
+        setTags((prev) => prev.map((t) => (t.id === id ? { ...t, label } : t)));
+    }
+    function deleteTag(id: string) {
+        setTags((prev) => prev.filter((t) => t.id !== id));
+    }
+
     return (
         <Container className='my-4'>
             <Routes>
                 <Route
                     path='/'
                     element={
-                        <NoteList notes={noteWithTags} availableTags={tags} />
+                        <NoteList
+                            notes={noteWithTags}
+                            availableTags={tags}
+                            updateTag={updateTag}
+                            deleteTag={deleteTag}
+                        />
                     }
                 />
                 <Route
